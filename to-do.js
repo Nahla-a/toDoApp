@@ -1,3 +1,4 @@
+let taskListItem;
 const addButton = document.getElementById("add").addEventListener('click', addTask)
 
 function addTask() {
@@ -6,7 +7,7 @@ function addTask() {
     let form = document.getElementById("theForm");
     console.log(addNewItem);
 
-    let tasklistItem, taskcheckBox, taskLabel, taskTrashButton, newLine;
+    let taskcheckBox, taskLabel, taskTrashButton;
 
     // Create a list:
     taskListItem = document.createElement("li");
@@ -18,23 +19,23 @@ function addTask() {
     taskcheckBox.id = "check";
 
     // Create a label:
-    taskLabel = document.createElement("label");
-    taskLabel.htmlFor = "check";
-    textLabel = document.createTextNode("");
-    taskLabel.appendChild(textLabel);
+    // taskLabel = document.createElement("label");
+    // taskLabel.id = "label"
+    // taskLabel.htmlFor = "check";
+    // // document.querySelector('#check')
+    // textLabel = document.createTextNode(addNewItem);
+    // taskLabel.appendChild(textLabel);
 
     // Create trash button:
     taskTrashButton = document.createElement("button");
+    taskTrashButton.id = "clear"
     textTrashButton = document.createTextNode("Clear");
     taskTrashButton.appendChild(textTrashButton);
-
-    // Create a newLine:
-    space = document.createElement("BR");
 
     // Appending label and checkbox into the list:
     if (addNewItem !== "") {
         taskListItem.appendChild(taskcheckBox);
-        taskListItem.appendChild(taskLabel);
+        // taskListItem.appendChild(taskLabel);
 
 
         // Appending the new item:
@@ -43,13 +44,17 @@ function addTask() {
 
         // Appending trash into the list:
         taskListItem.appendChild(taskTrashButton);
+        taskTrashButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.target.parentElement.remove()
+        })
 
-
-        // Appending a new line:
-        form.appendChild(space);
-
-        document.getElementById("newItem").value = "";
-        addNewItem = localStorage.setItem("new item", addNewItem);
+        document.addEventListener('click', function () {
+            var complete = document.querySelectorAll('#item');
+            complete.style.setProperty("text-decoration", "line-through");
+        });
+        // document.getElementsById("newItem").value = "";
+        // addNewItem = localStorage.setItem("new item", addNewItem);
 
     }
     else {
@@ -58,27 +63,22 @@ function addTask() {
 
 }
 
-function createDeleteAllButton() {
-    let mainContainer = document.getElementById("container");
-    let taskDeleteAll;
+// To add 'checked' symbole when todo item completed:
+//  taskListItem = document.querySelectorAll('#item1');
+//  taskListItem.style.textDecoration = "line-through";
 
-    // Create a delete all button:
-    taskDeleteAll = document.createElement("button");
-    taskDeleteAll.id = "deleteList"
-    textDeleteAllButton = document.createTextNode("DELETE");
-    taskDeleteAll.appendChild(textDeleteAllButton);
 
-    // Appending the delete-all button to the form:
-    mainContainer.appendChild(taskDeleteAll);
-}
-createDeleteAllButton();
+
 
 // To delete all the list:
+const delButton = document.getElementById("deleteList").addEventListener('click', (evenet) => {
+    event.preventDefault()
+    deleteAll();
+})
 
-const delButton = document.getElementById("deleteList").addEventListener('click', deletAll)
-function deletAll() {
-    let taskListItem = document.getElementById("item1");
-    taskListItem.remove();
+function deleteAll() {
+    let taskListItem = document.querySelectorAll('#item1');
+    taskListItem.forEach(task => task.remove());
 }
 
 
